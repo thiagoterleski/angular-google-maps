@@ -8123,7 +8123,14 @@ StreetViewPanorama Directive to care of basic initialization of StreetViewPanora
                     perspectivePoint = streetViewPanoramaData.location.latLng;
                     handleSettings(perspectivePoint, focalPoint);
                     ele = element[0];
-                    return pano = new google.maps.StreetViewPanorama(ele, opts);
+
+                    pano = new google.maps.StreetViewPanorama(ele, opts)
+                    if (((ref = scope.events) != null ? ref.pov_changed : void 0) != null) {
+                      pano.addListener('pov_changed', function() {
+                          scope.events.pov_changed(sv, 'pov_changed', scope,pano.getPov());
+                      });
+                    }
+                    return pano;
                   }
                 });
               };
